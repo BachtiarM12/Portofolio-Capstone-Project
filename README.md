@@ -1,8 +1,8 @@
-# Nah! Bookstore_Python_CRUD
+# Bookstore_Python_CRUD
 
 **DataMed: Python CRUD Application for Customer in the Bookstore**
 
-A comprehensive Python application to guide customers in the Nah! Bookstore to purchase items. This program implements Create, Read, Update, and Delete (CRUD) operations.
+A comprehensive Python application to guide customers in the Bookstore to purchase items. This program implements Create, Read, Update, and Delete (CRUD) operations.
 
 # Business Understanding
 This project refers to the mini bookstore, specifically addressing they the customer know how to buy in their place efficiently. 
