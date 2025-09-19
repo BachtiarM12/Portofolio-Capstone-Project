@@ -1,4 +1,3 @@
-
 # Dictionary users untuk menyimpan data username, password, dan role
 users = {
     'admin': {'password': 'admin123', 'role': 'user'},
@@ -6,15 +5,15 @@ users = {
 }
 
 barang_dijual = []
-riwayat_transaksLi = []
+riwayat_transaksi = [] 
 keranjang = []
-total_keuntungan = 0
+
 
 # Initialize barang_dijual from store_inventory
 no = 1
 store_inventory = {
     'Books': {
-        'Fiction': {'price': 80000, 'stock': 10},
+        '': {'price': 80000, 'stock': 10},
         'Non-Fiction': {'price': 90000, 'stock': 8},
         'Textbooks': {'price': 120000, 'stock': 5},
         "Children's Books": {'price': 70000, 'stock': 12}
@@ -84,22 +83,19 @@ def register():
 
 # Fungsi untuk menampilkan daftar barang yang dijual
 # tampilkan_barang(role): Fungsi untuk menampilkan barang yang ada, dengan dua tampilan berbeda untuk penjual dan pembeli. 
-# Pembeli tidak melihat harga beli.
+# Pembeli tidak bisa melihat harga beli.
 def tampilkan_barang(role):
     print("\n")
-    data = []
-    headers = []
-    
     if role == 'customer':
-        headers = ["No", "Nama Barang", "Stok", "Harga Jual"]
+        print(f"{'No':<4} {'Nama Barang':<30} {'Stok':<6} {'Harga Jual':<15}")
+        print("-" * 55)
         for barang in barang_dijual:
-            data.append([barang['No'], barang['Nama'], barang['Stok'], f"Rp{int(barang['Harga Jual']):,}"])
+            print(f"{barang['No']:<4} {barang['Nama']:<30} {barang['Stok']:<6} Rp{int(barang['Harga Jual']):,}")
     else:
-        headers = ["No", "Nama Barang", "Stok", "Harga Beli", "Harga Jual"]
+        print(f"{'No':<4} {'Nama Barang':<30} {'Stok':<6} {'Harga Beli':<15} {'Harga Jual':<15}")
+        print("-" * 70)
         for barang in barang_dijual:
-            data.append([barang['No'], barang['Nama'], barang['Stok'], f"Rp{int(barang['Harga Beli']):,}", f"Rp{int(barang['Harga Jual']):,}"])
-    
-    print(tabulate(data, headers=headers, tablefmt="grid"))
+            print(f"{barang['No']:<4} {barang['Nama']:<30} {barang['Stok']:<6} Rp{int(barang['Harga Beli']):<15} Rp{int(barang['Harga Jual']):,}")
 
 # Fungsi untuk menambahkan barang baru oleh penjual
 # tambah_barang(): Fungsi untuk menambahkan barang baru oleh penjual. 
@@ -363,7 +359,6 @@ def lihat_keranjang():
 # checkout(): Fungsi ini digunakan untuk menyelesaikan pembelian. Detail barang yang akan di-checkout, termasuk diskon jika ada, ditampilkan. 
 # Setelah pembeli mengonfirmasi, stok barang akan diperbarui, dan riwayat transaksi disimpan. Keuntungan dari penjualan juga diperbarui.
 def checkout(username):
-    global total_keuntungan
     if not keranjang:
         print("Keranjang belanja Anda kosong.")
         return
@@ -399,8 +394,6 @@ def checkout(username):
             barang = next((b for b in barang_dijual if b['No'] == item['No']), None)
             if barang:
                 barang['Stok'] -= item['Jumlah']
-                keuntungan_item = (barang['Harga Jual'] - barang['Harga Beli']) * item['Jumlah']
-                total_keuntungan += keuntungan_item
         transaksi['Total'] = total_harga
         riwayat_transaksi.append(transaksi)
         keranjang.clear()
@@ -434,9 +427,6 @@ def beli_barang(username):
             print(f"Purchased {qty} x {barang['Nama']} for Rp{int(total):,}. Thank you!")
             transaksi = {'Pembeli': username, 'Barang': [{'Nama': barang['Nama'], 'Jumlah': qty, 'Harga Jual': barang['Harga Jual']}], 'Total': total}
             riwayat_transaksi.append(transaksi)
-            keuntungan = (barang['Harga Jual'] - barang['Harga Beli']) * qty
-            global total_keuntungan
-            total_keuntungan += keuntungan
             return
     print("Barang tidak ditemukan.")
 
