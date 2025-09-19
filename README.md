@@ -49,24 +49,24 @@ Python (version 3.13.5)
 ## Data Model
 This project utilizes a manual input data and some auto-generated data to represent chart bookstore customer data need. The following fields are typically stored:
 1. store_inventory Data Model
-| Field             | Type       | Description                                                                                               |
-| ----------------- | ---------- | --------------------------------------------------------------------------------------------------------- |
-| item_name         | str        | The name of the item (e.g., book title or accessory name). Primary key.                                   |
-| category          | str, alpha | The category of the item (e.g., International Novel, Accessories, etc.).                                  |
-| price             | int        | The price of the item in Indonesian Rupiah (IDR)                                                          |
-| stock             | int        | The available stock quantity of the item                                                                  |
+| Field     | Type       | Description                                                              |
+| --------- | ---------- | ------------------------------------------------------------------------ |
+| item_name | str        | The name of the item (e.g., book title or accessory name). Primary key.  |
+| category  | str, alpha | The category of the item (e.g., International Novel, Accessories, etc.). |
+| price     | int        | The price of the item in Indonesian Rupiah (IDR)                         |
+| stock     | int        | The available stock quantity of the item                                 |
 Notes:
 
 1. The item_name (key of the store_inventory dictionary) serves as the unique identifier (primary key).
 2. Example entry: 'A Curtain Twitcher\'s Book of Murder': {'Category': 'International Novel', 'price': 103500, 'stock': 10}.
 
 2. keranjang (Cart) Data Model
-| Field             | Type       | Description                                                                                               |
-| ----------------- | ---------- | --------------------------------------------------------------------------------------------------------- |
-| No                | int        | The item number from store_inventory (used for selection).                                                |
-| Nama              | str        | The name of the item (references item_name in store_inventory).                                           |
-| Jumlah            | int        | The quantity of the item selected by the customer.                                                        |
-| Harga             | int        | The unit price of the item (copied from store_inventory['price'])                                         |           
+| Field     | Type       | Description                                                              |
+| --------- | ---------- | ------------------------------------------------------------------------ |
+| No        | int        | The item number from store_inventory (used for selection).               |
+| Nama      | str        | The name of the item (references item_name in store_inventory).          |
+| Jumlah    | int        | The quantity of the item selected by the customer.                       |
+| Harga     | int        | The unit price of the item (copied from store_inventory['price'])        |           
 
 Notes:
 
