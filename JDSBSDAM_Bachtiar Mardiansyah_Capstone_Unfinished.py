@@ -1,19 +1,7 @@
-# Dictionary users untuk menyimpan data username, password, dan role
-users = {
-    'admin': {'password': 'admin123', 'role': 'user'},
-    'customer': {'password': 'cust123', 'role': 'customer'}
-}
-
-barang_dijual = []
-riwayat_transaksi = [] 
-keranjang = []
-
-
 # Initialize barang_dijual from store_inventory
-no = 1
 store_inventory = {
     'Books': {
-        '': {'price': 80000, 'stock': 10},
+        'Fiction': {'price': 80000, 'stock': 10},
         'Non-Fiction': {'price': 90000, 'stock': 8},
         'Textbooks': {'price': 120000, 'stock': 5},
         "Children's Books": {'price': 70000, 'stock': 12}
@@ -42,44 +30,6 @@ for category, items in store_inventory.items():
         stok = info['stock']
         barang_dijual.append({'No': no, 'Nama': f"{category} - {name}", 'Stok': stok, 'Harga Beli': harga_beli, 'Harga Jual': harga_jual})
         no += 1
-
-# Fungsi login untuk mengautentikasi pengguna
-def login():
-    attempts = 3
-    while attempts > 0:
-        username = input("Username: ")
-        password = input("Password: ")
-        if username in users and users[username]['password'] == password:
-            print(f"Login berhasil. Selamat datang, {username}!")
-            return username, users[username]['role']
-        else:
-            attempts -= 1
-            print(f"Login gagal. Sisa percobaan: {attempts}")
-    print("Terlalu banyak percobaan login gagal. Program berhenti.")
-    exit()
-
-# Fungsi register untuk menambahkan user pembeli baru
-# register(): Fungsi untuk mendaftarkan user baru sebagai pembeli. Username harus unik dan minimal 6 karakter. 
-# Password juga harus minimal 6 karakter.
-def register():
-    while True:
-        username = input("Masukkan username: ")
-        if username in users:
-            print("Username sudah ada. Silakan pilih username lain.")
-        elif len(username) < 6:
-            print("Username minimal harus 6 karakter.")
-        else:
-            break
-    
-    while True:
-        password = input("Masukkan password: ")
-        if len(password) < 6:
-            print("Password minimal harus 6 karakter.")
-        else:
-            break
-    
-    users[username] = {'password': password, 'role': 'customer'}
-    print("Registrasi berhasil! Silakan login.")
 
 # Fungsi untuk menampilkan daftar barang yang dijual
 # tampilkan_barang(role): Fungsi untuk menampilkan barang yang ada, dengan dua tampilan berbeda untuk penjual dan pembeli. 
@@ -124,32 +74,6 @@ def tambah_barang():
     no_baru = len(barang_dijual) + 1
     barang_dijual.append({'No': no_baru, 'Nama': nama, 'Stok': stok, 'Harga Beli': harga_beli, 'Harga Jual': harga_jual})
     print(f"{nama} berhasil ditambahkan.")
-
-# Fungsi untuk merestok barang oleh penjual
-# restok_barang(): Fungsi yang digunakan penjual untuk menambah stok barang yang sudah ada. 
-# Barang yang di-restok dipilih berdasarkan nomor barang. Jumlah stok yang ditambahkan tidak boleh negatif atau nol.
-def restok_barang():
-    try:
-        no_barang = int(input("Masukkan nomor barang yang ingin di-restok: "))
-    except ValueError:
-        print("Invalid input. Masukkan angka.")
-        return
-    for barang in barang_dijual:
-        if barang['No'] == no_barang:
-            print(f"Barang dipilih: {barang['Nama']} (Stok saat ini: {barang['Stok']})")
-            while True:
-                try:
-                    jumlah_restok = int(input(f"Masukkan jumlah untuk restok {barang['Nama']}: "))
-                    if jumlah_restok <= 0:
-                        print("Jumlah restok tidak boleh negatif atau nol.")
-                    else:
-                        barang['Stok'] += jumlah_restok
-                        print(f"Stok {barang['Nama']} berhasil ditambah. Stok sekarang: {barang['Stok']}")
-                        break
-                except ValueError:
-                    print("Invalid input. Masukkan angka.")
-            return
-    print("Barang tidak ditemukan.")
 
 # Fungsi untuk mengubah informasi barang (nama, stok, harga beli) oleh penjual
 # ubah_barang(): Fungsi untuk mengubah informasi barang (nama, stok, dan harga beli). 
@@ -205,37 +129,6 @@ def hapus_barang():
             print(f"Barang nomor {no_barang} berhasil dihapus.")
             return
     print("Barang tidak ditemukan.")
-
-# Fungsi untuk memberikan saran restok dan notifikasi barang habis atau hampir habis
-# saran_restock(): Fungsi ini memberikan saran untuk merestok barang yang stoknya sudah sedikit (di bawah 12) atau habis. 
-# Daftar barang yang stoknya kurang dari 12 atau habis akan ditampilkan dengan notifikasi.
-def saran_restock():
-    print("\n=== Saran Restok dan Notifikasi Stok ===")
-    barang_hampir_habis = []
-    barang_habis = []
-
-    for barang in barang_dijual:
-        # Kategorisasi barang yang habis dan hampir habis
-        if barang['Stok'] == 0:
-            barang_habis.append(barang)
-        elif barang['Stok'] < 12:
-            barang_hampir_habis.append(barang)
-
-    # Menampilkan notifikasi barang habis
-    if barang_habis:
-        print("\n=== Notifikasi Barang Habis ===")
-        for barang in barang_habis:
-            print(f"Barang {barang['Nama']} sudah habis. Silakan segera restok.")
-    else:
-        print("\nTidak ada barang yang habis.")
-
-    # Menampilkan saran restok untuk barang yang hampir habis
-    if barang_hampir_habis:
-        print("\n=== Barang yang Hampir Habis ===")
-        for barang in barang_hampir_habis:
-            print(f"{barang['Nama']} - Stok tersisa: {barang['Stok']}")
-    else:
-        print("Tidak ada barang yang hampir habis.")
 
 # Fungsi untuk menampilkan riwayat transaksi oleh penjual
 # lihat_riwayat_transaksi_penjual(): Fungsi ini menampilkan semua riwayat transaksi yang telah dilakukan oleh pembeli. 
@@ -461,31 +354,25 @@ def user_menu(username):
         print("\nUser Menu")
         print("1. View All Items")
         print("2. Add New Item")
-        print("3. Restock Item")
-        print("4. Edit Item")
-        print("5. Delete Item")
-        print("6. View Transaction History")
-        print("7. Restock Suggestion")
-        print("8. Purchase Item")
-        print("9. Exit")
-        choice = input("Enter the number of your choice (1-9): ").strip()
+        print("3. Edit Item")
+        print("4. Delete Item")
+        print("5. View Transaction History")
+        print("6. Purchase Item")
+        print("7. Exit")
+        choice = input("Enter the number of your choice (1-7): ").strip()
         if choice == '1':
             tampilkan_barang('user')
         elif choice == '2':
             tambah_barang()
         elif choice == '3':
-            restok_barang()
-        elif choice == '4':
             ubah_barang()
-        elif choice == '5':
+        elif choice == '4':
             hapus_barang()
-        elif choice == '6':
+        elif choice == '5':
             lihat_riwayat_transaksi_penjual()
-        elif choice == '7':
-            saran_restock()
-        elif choice == '8':
+        elif choice == '6':
             beli_barang(username)
-        elif choice == '9':
+        elif choice == '7':
             print("Goodbye!")
             break
         else:
@@ -494,17 +381,17 @@ def user_menu(username):
 if __name__ == "__main__":
     print("Welcome to the Han Bookstore!")
     while True:
-        action = input("Do you want to login or register? (L/R): ").strip().upper()
-        if action == 'L':
-            username, role = login()
-            if role == 'customer':
-                customer_menu(username)
-            elif role == 'user':
-                user_menu(username)
-            else:
-                print("Invalid role.")
+        print("\nChoose your role:")
+        print("1. Customer")
+        print("2. Admin (User)")
+        choice = input("Enter 1 or 2: ").strip()
+        if choice == '1':
+            username = "customer"
+            customer_menu(username)
             break
-        elif action == 'R':
-            register()
+        elif choice == '2':
+            username = "admin"
+            user_menu(username)
+            break
         else:
-            print("Invalid choice.")
+            print("Invalid choice. Please try again.")
