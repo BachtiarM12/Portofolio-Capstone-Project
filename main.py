@@ -243,10 +243,11 @@ def customer_menu(user):
 # Main program
 if __name__ == "__main__":
     print("-"*150)
-    print("Welcome to the Nah! Bookstore!")
+    print("Welcome to the Nah! Bookstore")
     print("By = Bachtiar Mardiansyah")
     print("JCDS - BSDAM29")
     print("-"*150)
     customer_menu("customer")
 
 # /**************************************************************************************************************************/
+
